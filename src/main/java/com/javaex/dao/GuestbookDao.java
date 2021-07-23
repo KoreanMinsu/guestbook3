@@ -1,34 +1,35 @@
 package com.javaex.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.javaex.vo.GuestbookVo;
 
+@Repository
 public class GuestbookDao {
 
+	@Autowired
+	private DataSource dataSource;
+	
 //field	
 	private Connection conn=null;
 	private PreparedStatement ps=null;
 	private ResultSet rs=null;
 	
-	private String driver = "oracle.jdbc.driver.OracleDriver";
-	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	private String id = "webdb";
-	private String pw = "webdb";
-
 //connection	
 	private void getConnection() {
 		try {
-			Class.forName(driver);
-			conn=DriverManager.getConnection(url, id, pw);
-		} catch(ClassNotFoundException e) {
-			System.out.println("driver load error"+e);
+			
+			conn=dataSource.getConnection();
 		}catch (SQLException e) {
 			System.out.println("error"+e);
 		}
@@ -54,7 +55,7 @@ public class GuestbookDao {
 	
 //insert
 	public int insert(GuestbookVo gb) {
-		int count = 0;
+		int count = -1;
 		getConnection();
 		
 		try {
@@ -83,7 +84,7 @@ public class GuestbookDao {
 	
 //delete
 	public int delete(GuestbookVo gb) {
-		int count = 0;
+		int count = -1;
 		getConnection();
 		
 		try {
@@ -129,6 +130,7 @@ public class GuestbookDao {
 			query += " from guestbook ";
 			query += " order by no ASC ";
 			
+			ps = conn.prepareStatement(query);
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				int no = rs.getInt("no");

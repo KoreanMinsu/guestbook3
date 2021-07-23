@@ -8,6 +8,9 @@ public class GuestbookVo {
 	private String content;
 	private String regDate;
 	
+	public GuestbookVo() {
+	}
+	
 	public GuestbookVo(int no, String password) {
 		this.no = no;
 		this.password = password;
