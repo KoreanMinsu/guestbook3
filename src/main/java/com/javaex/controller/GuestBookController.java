@@ -1,5 +1,6 @@
 package com.javaex.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,17 +14,19 @@ import com.javaex.vo.GuestbookVo;
 @Controller
 public class GuestBookController {
 	
+	@Autowired
+	private GuestbookDao guestbookDao;
+	
 	//addList
 	@RequestMapping(value="/addList", method= {RequestMethod.GET, RequestMethod.POST})
 	public String addList(Model model) {
-		System.out.println("[GuestbookController.list]");
+		System.out.println("[GuestbookController.addList]");
 		
-		//Dao
-		GuestbookDao gbDao = new GuestbookDao();
-		gbDao.getList();
+		//db
+		guestbookDao.getList();
 		
 		//model
-		model.addAttribute("guestbookList", gbDao);
+		model.addAttribute("guestbookList", guestbookDao);
 		
 		return "/WEB-INF/views/addList.jsp";
 	}
@@ -33,11 +36,8 @@ public class GuestBookController {
 	public String add(@ModelAttribute GuestbookVo gbVo) {
 		System.out.println(gbVo);
 		
-		//Dao
-		GuestbookDao gbDao = new GuestbookDao();
-		
 		//DB
-		gbDao.insert(gbVo);
+		guestbookDao.insert(gbVo);
 		
 		return "redirct:/addList";
 	}
@@ -57,11 +57,8 @@ public class GuestBookController {
 	@RequestMapping(value="/delete", method= {RequestMethod.GET, RequestMethod.POST})
 	public String delete(@ModelAttribute GuestbookVo gbVo) {
 		
-		//Dao
-		GuestbookDao gbDao = new GuestbookDao();
-		
 		//DB
-		gbDao.delete(gbVo);
+		guestbookDao.delete(gbVo);
 		
 		return "redirect:/addList";
 	}
