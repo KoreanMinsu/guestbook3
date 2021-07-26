@@ -28,7 +28,7 @@ public class GuestBookController {
 		//model
 		model.addAttribute("guestbookList", guestbookDao);
 		
-		return "/WEB-INF/views/addList.jsp";
+		return "/addList";
 	}
 
 	//add
@@ -50,7 +50,7 @@ public class GuestBookController {
 		//model
 		model.addAttribute("no", no);
 		
-		return "/WEB-INF/views/deleteForm.jsp";
+		return "/deleteForm";
 	}
 	
 	//delete
