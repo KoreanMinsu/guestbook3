@@ -4,7 +4,7 @@
 <mapper namespace="guestbook">
 	
 	<!-- insert -->
-	<insert id="insert" parameterType="com.javaex.vo.GuestbookVo">
+	<insert id="insert" parameterType="guestVo">
 		<![CDATA[
 		 INSERT INTO guestbook
 		 VALUES( seq_no.nextval
@@ -17,7 +17,7 @@
 	</insert>
 	
 	<!-- list -->
-	<select id="getList" resultType="com.javaex.vo.GuestbookVo">
+	<select id="getList" resultType="guestVo">
 		<![CDATA[
 		SELECT  	no
 		,			name
@@ -32,7 +32,7 @@
 	</select>
 	
 	<!-- delete -->
-	<delete id="delete" parameterType="com.javaex.vo.GuestBookVo">
+	<delete id="delete" parameterType="guestVo">
 		<![CDATA[
 		 DELTE FROM guestbook
 		 WHERE no = #{no}
